@@ -5,12 +5,13 @@ rm(list = ls())
 
 setwd(getwd()) ## Set current working directory
 PathName <- getwd() ## Set output directroy
-
+FileName <- c("Xena_TCGA_LGG_GE")
+  
 RVersion <- "/20201009V1" ## Generate output folder automatically
 dir.create(paste0(PathName,RVersion))
 
 ## Import genetic data file
-GeneExp_Ori <- read.table(paste0(PathName,"/Xena_TCGA_LGG_GE"),  # 資料檔名
+GeneExp_Ori <- read.table(paste0(PathName,"/",FileName),  # 資料檔名
                           header=T,          # 資料中的第一列，作為欄位名稱
                           sep="")
 # GeneExp_Ori <- read.table(paste0(PathName,"/Xena_TCGA_LGG_GE"),  # 資料檔名
@@ -69,8 +70,8 @@ GSEA_GeneExp <- rbind.fill(GSEA_GeneExp,GeneExp_Sum)
 GSEASetting <- data.frame(NAME <- c("#1.2",GeneExp_Gene_Num),Description = c('',Sample_Num))
 GSEA_GeneExp<-rbind.fill(GSEASetting,GSEA_GeneExp)
 
-write.table(GSEA_GeneExp,file=paste0(PathName,RVersion,"/Xiap_Result.csv"),quote = FALSE,row.names = FALSE,col.names = FALSE, na = "",sep = ',')
-write.table(GSEA_GeneExp,file=paste0(PathName,RVersion,"/Xiap_Result.gct"),quote = FALSE,row.names = FALSE,col.names = FALSE, na = "",sep = '\t')
+write.table(GSEA_GeneExp,file=paste0(PathName,RVersion,"/",FileName,"_",Target_gene_name,".csv"),quote = FALSE,row.names = FALSE,col.names = FALSE, na = "",sep = ',')
+write.table(GSEA_GeneExp,file=paste0(PathName,RVersion,"/",FileName,"_",Target_gene_name,".gct"),quote = FALSE,row.names = FALSE,col.names = FALSE, na = "",sep = '\t')
 #########################################
 
 
@@ -78,5 +79,5 @@ Pheno_Line1 <- c(Sample_Num,2,1)
 Pheno_Line2 <- c("#XIAP_high","XIAP_Low")
 Pheno_Line3 <- c(GeneExp_High_Group,GeneExp_Low_Group)
 Pheno_sum <- rbind.fill(data.frame(t(Pheno_Line1)),data.frame(t(Pheno_Line2), stringsAsFactors=FALSE),data.frame(t(Pheno_Line3)))
-write.table(Pheno_sum,file=paste0(PathName,RVersion,"/Xiap_Result_Pheno.cls"),quote = FALSE,row.names = FALSE, na = "",col.names = FALSE)
+write.table(Pheno_sum,file=paste0(PathName,RVersion,"/",FileName,"_",Target_gene_name,".cls"),quote = FALSE,row.names = FALSE, na = "",col.names = FALSE)
 #########################################
