@@ -4,9 +4,9 @@ rm(list = ls())
 ## Initialization
 
 setwd(getwd()) ## Set current working directory
-PathName = getwd() ## Set output directroy
+PathName <- getwd() ## Set output directroy
 
-RVersion = "/20201009V1" ## Generate output folder automatically
+RVersion <- "/20201009V1" ## Generate output folder automatically
 dir.create(paste0(PathName,RVersion))
 
 ## Import genetic data file
@@ -20,7 +20,7 @@ GeneExp_Ori <- read.table(paste0(PathName,"/Xena_TCGA_LGG_GE"),  # 資料檔名
 # paste0 ==> concatenate strings without any separation/delimiter
 # paste("Hello", "World", sep = "-") ==> concatenate strings with seperator "-"
 ##################################################################################
-
+Target_gene_name <- c("XIAP")
 
 GeneExp <- GeneExp_Ori 
 row.names(GeneExp) <- GeneExp[,1]
@@ -30,16 +30,16 @@ GeneExp <- GeneExp[, -1]
 # load package 'data.table' 
 library(data.table)
 
-# Extract data with GeneName "XIAP"
-XIAP <- GeneExp["XIAP",]
+# Extract data with Target_gene_name
+Target_gene <- GeneExp[Target_gene_name,]
 
 # load package 'dplyr'
 library(dplyr) # Basic data manupilation tools
-XIAP_Mean <- rowMeans(data.matrix(XIAP))
-XIAP_SD <- sd(data.matrix(XIAP))
+Target_gene_Mean <- rowMeans(data.matrix(Target_gene))
+Target_gene_SD <- sd(data.matrix(Target_gene))
 
-GeneExp_High <- GeneExp[,GeneExp["XIAP",] >= XIAP_Mean+XIAP_SD]
-GeneExp_Low <- GeneExp[,GeneExp["XIAP",] <= XIAP_Mean-XIAP_SD]
+GeneExp_High <- GeneExp[,GeneExp[Target_gene_name,] >= Target_gene_Mean+Target_gene_SD]
+GeneExp_Low <- GeneExp[,GeneExp[Target_gene_name,] <= Target_gene_Mean-Target_gene_SD]
 
 # Count the numbers
 GeneExp_High_Num <- length(GeneExp_High[1,])
@@ -60,7 +60,7 @@ GSEA_GeneExp <- data.frame(t(colnames(GeneExp_Sum)), stringsAsFactors=FALSE)
 colnames(GSEA_GeneExp) <- GSEA_GeneExp
 
 #https://blog.csdn.net/sinat_26917383/article/details/50676894
-library("plyr")  #加??????取rbind.fill函???
+library("plyr")  
 GSEA_GeneExp <- rbind.fill(GSEA_GeneExp,GeneExp_Sum)
 
 #########################################
