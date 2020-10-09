@@ -67,7 +67,7 @@ GSEA_GeneExp <- rbind.fill(GSEA_GeneExp,GeneExp_Sum)
 #########################################
 
 
-GSEASetting <- data.frame(NAME <- c("#1.2",GeneExp_Gene_Num),Description = c('',Sample_Num))
+GSEASetting <- data.frame(NAME = c("#1.2",GeneExp_Gene_Num),Description = c('',Sample_Num))
 GSEA_GeneExp<-rbind.fill(GSEASetting,GSEA_GeneExp)
 
 write.table(GSEA_GeneExp,file=paste0(PathName,RVersion,"/",FileName,"_",Target_gene_name,".csv"),quote = FALSE,row.names = FALSE,col.names = FALSE, na = "",sep = ',')
