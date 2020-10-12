@@ -6,9 +6,9 @@ rm(list = ls())
 setwd(getwd()) ## Set current working directory
 PathName <- getwd() ## Set output directroy
 
-FileName <- c("Xena_TCGA_PAAD_GE")
+FileName <- c("Xena_TCGA_LGG_GE")
 Target_gene_name <- c("CD248")
-SetVersion <- c("_20201011V1")
+SetVersion <- c("_20201012V1")
 
 ResultFolderName <- paste0("/",Target_gene_name,SetVersion) ## Generate output folder automatically
 dir.create(paste0(PathName,ResultFolderName))
