@@ -12,7 +12,7 @@ FileName3 <- c("Xena_TCGA_PanCancer_Pheno2.tsv")
 
 Target_gene_name_Multi <- c("RHOA_related_StageI&II(ajcc)")
 Target_gene_name <- c("RHOA","ROCK1","ROCK2","FN1")
-SetVersion <- c("_20210518V1")
+SetVersion <- c("_20210518V2")
 
 ResultFolderName <- paste0("/",Target_gene_name_Multi,SetVersion) ## Generate output folder automatically
 dir.create(paste0(PathName,ResultFolderName))
@@ -127,26 +127,39 @@ GeneExp_Stage_STN2 <-  GeneExp_Stage_STN[,colnames(GeneExp_Stage_STN) %in% Pheno
 
 ## Find Gene
 
-GeneExp_RhoA_PT <- GeneExp_Stage_PT2[rownames(GeneExp_Stage_PT2) == "RHOA",]
-GeneExp_RhoA_PT[2,] <- colnames(GeneExp_RhoA_PT)
+GeneExp_RhoA_PT <- GeneExp_Stage_PT2[rownames(GeneExp_Stage_PT2) %in% c("RHOA","ROCK1","ROCK2","FN1"),]
+GeneExp_RhoA_PT[5,] <- colnames(GeneExp_RhoA_PT)
 GeneExp_RhoA_PT <- as.data.frame(t(GeneExp_RhoA_PT))
-colnames(GeneExp_RhoA_PT)[2] <- c("sample")
+colnames(GeneExp_RhoA_PT)[5] <- c("sample")
 
-GeneExp_RhoA_STN <- GeneExp_Stage_STN2[rownames(GeneExp_Stage_STN2) == "RHOA",]
-GeneExp_RhoA_STN[2,] <- colnames(GeneExp_RhoA_STN)
+GeneExp_RhoA_STN <- GeneExp_Stage_STN2[rownames(GeneExp_Stage_STN2) %in% c("RHOA","ROCK1","ROCK2","FN1"),]
+GeneExp_RhoA_STN[5,] <- colnames(GeneExp_RhoA_STN)
 GeneExp_RhoA_STN <- as.data.frame(t(GeneExp_RhoA_STN))
-colnames(GeneExp_RhoA_STN)[2] <- c("sample")
+colnames(GeneExp_RhoA_STN)[5] <- c("sample")
 
 library("dplyr")
 GeneExp_RhoA_PT <- left_join(GeneExp_RhoA_PT,Phenotype_Stage_All_PNintersect,by="sample")
-GeneExp_RhoA_PT <- GeneExp_RhoA_PT[,1:3]
+GeneExp_RhoA_PT <- GeneExp_RhoA_PT[,1:6]
 GeneExp_RhoA_STN <- left_join(GeneExp_RhoA_STN,Phenotype_Stage_All_PNintersect,by="sample")
-GeneExp_RhoA_STN <- GeneExp_RhoA_STN[,1:3]
+GeneExp_RhoA_STN <- GeneExp_RhoA_STN[,1:6]
 GeneExp_RhoA_All <- left_join(GeneExp_RhoA_PT,GeneExp_RhoA_STN,by="X_PATIENT")
 GeneExp_RhoA_All$RHOA.x <- as.numeric(GeneExp_RhoA_All$RHOA.x)
 GeneExp_RhoA_All$RHOA.y <- as.numeric(GeneExp_RhoA_All$RHOA.y)
+GeneExp_RhoA_All$ROCK1.x <- as.numeric(GeneExp_RhoA_All$ROCK1.x)
+GeneExp_RhoA_All$ROCK1.y <- as.numeric(GeneExp_RhoA_All$ROCK1.y)
+GeneExp_RhoA_All$ROCK2.x <- as.numeric(GeneExp_RhoA_All$ROCK2.x)
+GeneExp_RhoA_All$ROCK2.y <- as.numeric(GeneExp_RhoA_All$ROCK2.y)
+GeneExp_RhoA_All$FN1.x <- as.numeric(GeneExp_RhoA_All$FN1.x)
+GeneExp_RhoA_All$FN1.y <- as.numeric(GeneExp_RhoA_All$FN1.y)
 
-GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y,]
+# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y, ]
+GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y &
+                                                GeneExp_RhoA_All$ROCK1.x > GeneExp_RhoA_All$ROCK1.y &
+                                                GeneExp_RhoA_All$ROCK2.x > GeneExp_RhoA_All$ROCK2.y &
+                                                GeneExp_RhoA_All$FN1.x > GeneExp_RhoA_All$FN1.y 
+                                                ,]
+
+
 
 ### Test ###
 # library("dplyr")
