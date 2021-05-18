@@ -12,7 +12,7 @@ FileName3 <- c("Xena_TCGA_PanCancer_Pheno2.tsv")
 
 Target_gene_name_Multi <- c("RHOA_related_StageI&II(ajcc)")
 Target_gene_name <- c("RHOA","ROCK1","ROCK2","FN1")
-SetVersion <- c("_20210518V2")
+SetVersion <- c("_20210519V5")
 
 ResultFolderName <- paste0("/",Target_gene_name_Multi,SetVersion) ## Generate output folder automatically
 dir.create(paste0(PathName,ResultFolderName))
@@ -152,14 +152,29 @@ GeneExp_RhoA_All$ROCK2.y <- as.numeric(GeneExp_RhoA_All$ROCK2.y)
 GeneExp_RhoA_All$FN1.x <- as.numeric(GeneExp_RhoA_All$FN1.x)
 GeneExp_RhoA_All$FN1.y <- as.numeric(GeneExp_RhoA_All$FN1.y)
 
-# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y, ]
+# # V1
+#  GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y, ]
+# 
+# # V2
+# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y &
+#                                                 GeneExp_RhoA_All$ROCK1.x > GeneExp_RhoA_All$ROCK1.y &
+#                                                 GeneExp_RhoA_All$ROCK2.x > GeneExp_RhoA_All$ROCK2.y &
+#                                                 GeneExp_RhoA_All$FN1.x > GeneExp_RhoA_All$FN1.y
+#                                                 ,]
+# # V3
+# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y &
+#                                                   GeneExp_RhoA_All$ROCK1.x > GeneExp_RhoA_All$ROCK1.y &
+#                                                   GeneExp_RhoA_All$ROCK2.x > GeneExp_RhoA_All$ROCK2.y
+#                                                 ,]
+# 
+# # V4
+# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y &
+#                                                   GeneExp_RhoA_All$ROCK1.x > GeneExp_RhoA_All$ROCK1.y
+#                                                 ,]
+# V5
 GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > GeneExp_RhoA_All$RHOA.y &
-                                                GeneExp_RhoA_All$ROCK1.x > GeneExp_RhoA_All$ROCK1.y &
-                                                GeneExp_RhoA_All$ROCK2.x > GeneExp_RhoA_All$ROCK2.y &
-                                                GeneExp_RhoA_All$FN1.x > GeneExp_RhoA_All$FN1.y 
+                                                  GeneExp_RhoA_All$ROCK2.x > GeneExp_RhoA_All$ROCK2.y
                                                 ,]
-
-
 
 ### Test ###
 # library("dplyr")
