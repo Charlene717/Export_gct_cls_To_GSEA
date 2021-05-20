@@ -14,23 +14,26 @@ rm(list = ls())
 setwd(getwd()) ## Set current working directory
 PathName <- getwd() ## Set output directroy
 
-FileName <-  c("Xena_TCGA_Pan")
 FileNameGE <- c("Xena_TCGA_PanCancer_GE.xena")
 FileNamePheno1 <- c("Xena_TCGA_PanCancer_Pheno")
 FileNamePheno2 <- c("Xena_TCGA_PanCancer_Pheno2.tsv")
 
-Target_gene_name_Multi <- c("RHOA_Comb1_FC1p2_AjccSTGI&II")
+######## Parameter setting ########
+Fold_Change = 1.5
+Comb = 5
+
+FCName1 = trunc(Fold_Change)
+FCName2 = (Fold_Change-FCName1)*10
+######## Filename setting ########
+Target_gene_name_Multi <- paste0("RHOA_Comb",Comb,"_FC",FCName1,"p",FCName2,"_AjccSTGI&II")
 # Comb:Combination # FC:Fold_Change # STG:Stage
 
 Target_gene_name <- c("RHOA","ROCK1","ROCK2","FN1")
 SetVersion <- c("_20210520")
 
+FileName <-  c("Xena_TCGA_Pan")
 ResultFolderName <- paste0("/",Target_gene_name_Multi,SetVersion) ## Generate output folder automatically
 dir.create(paste0(PathName,ResultFolderName))
-
-######## Parameter setting ########
-Fold_Change = 1.2
-Comb = 1
 
 ######## Import Raw Data ########
 
