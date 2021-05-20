@@ -1,3 +1,12 @@
+## 待修改
+# Stage設定(If條件式)
+# 匯入多個基因簡化與自動化
+# 排列組合設定
+# 縮寫簡化與通用化
+# 備註說明
+# 參數設定說明與匯出
+# 檔名縮寫
+
 ## Clean variables
 rm(list = ls())
 
@@ -21,6 +30,7 @@ dir.create(paste0(PathName,ResultFolderName))
 
 ######## Parameter setting ########
 Fold_Change = 1.2
+Comb = 1
 
 ######## Import Raw Data ########
 
@@ -138,29 +148,24 @@ GeneExp_RhoA_All$FN1.y <- as.numeric(GeneExp_RhoA_All$FN1.y)
 
 
 ###### Try different Combination ######
-# Comb1
- GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y, ]
-
-# # Comb2
-# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
-#                                                 GeneExp_RhoA_All$ROCK1.x > Fold_Change*GeneExp_RhoA_All$ROCK1.y &
-#                                                 GeneExp_RhoA_All$ROCK2.x > Fold_Change*GeneExp_RhoA_All$ROCK2.y &
-#                                                 GeneExp_RhoA_All$FN1.x > Fold_Change*GeneExp_RhoA_All$FN1.y
-#                                                 ,]
-# # Comb3
-# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
-#                                                   GeneExp_RhoA_All$ROCK1.x > Fold_Change*GeneExp_RhoA_All$ROCK1.y &
-#                                                   GeneExp_RhoA_All$ROCK2.x > Fold_Change*GeneExp_RhoA_All$ROCK2.y
-#                                                 ,]
-# 
-# # Comb4
-# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
-#                                                   GeneExp_RhoA_All$ROCK1.x > Fold_Change*GeneExp_RhoA_All$ROCK1.y
-#                                                 ,]
-# # Comb5
-# GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
-#                                                   GeneExp_RhoA_All$ROCK2.x > Fold_Change*GeneExp_RhoA_All$ROCK2.y
-#                                                 ,]
+if(Comb==1){
+  GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y, ]
+}else if(Comb==2){
+  GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
+                                                  GeneExp_RhoA_All$ROCK1.x > Fold_Change*GeneExp_RhoA_All$ROCK1.y &
+                                                  GeneExp_RhoA_All$ROCK2.x > Fold_Change*GeneExp_RhoA_All$ROCK2.y &
+                                                  GeneExp_RhoA_All$FN1.x > Fold_Change*GeneExp_RhoA_All$FN1.y,]
+}else if(Comb==3){
+  GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
+                                                    GeneExp_RhoA_All$ROCK1.x > Fold_Change*GeneExp_RhoA_All$ROCK1.y &
+                                                    GeneExp_RhoA_All$ROCK2.x > Fold_Change*GeneExp_RhoA_All$ROCK2.y,]
+}else if(Comb==4){
+  GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
+                                                    GeneExp_RhoA_All$ROCK1.x > Fold_Change*GeneExp_RhoA_All$ROCK1.y,]
+}  else{  
+  GeneExp_RhoA_All_Candidates <- GeneExp_RhoA_All[GeneExp_RhoA_All$RHOA.x > Fold_Change*GeneExp_RhoA_All$RHOA.y &
+                                                    GeneExp_RhoA_All$ROCK2.x > Fold_Change*GeneExp_RhoA_All$ROCK2.y,]
+}
 
 
 GeneExp_Stage_PT_Final <-  GeneExp_Stage_PT2[,colnames(GeneExp_Stage_PT2) %in% GeneExp_RhoA_All_Candidates$sample.x]
